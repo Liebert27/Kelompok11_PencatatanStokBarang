@@ -1,0 +1,134 @@
+:root {
+    --primary-color: #6a0dad;
+    --primary-light: #9c27b0;
+    --primary-dark: #4a0072;
+    --text-on-primary: #ffffff;
+    --background: #f5f5f5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.header h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.login-form, .item-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: var(--primary-light);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.navbar {
+    background-color: var(--primary-dark);
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: var(--text-on-primary);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: var(--primary-light);
+}
+
+.logout-btn {
+    float: right;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
