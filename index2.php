@@ -28,7 +28,7 @@ $stats_stmt = $pdo->prepare("SELECT
     SUM(stok_barang) as total_stock, 
     COUNT(id) as item_count,
     SUM(stok_barang * harga) as total_value,
-    AVG(calculate_item_total(stok_barang, harga)) as avg_harga
+    ROUND(AVG(calculate_item_total(stok_barang, harga)),2) as avg_harga
     FROM items 
     WHERE gudang_id = ?");
 $stats_stmt->execute([$_SESSION['gudang_id']]);

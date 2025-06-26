@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'k11_stoproj';
+$db   = 'k11_stokproj';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
