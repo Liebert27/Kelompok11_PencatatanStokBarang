@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2025 at 04:28 AM
+-- Generation Time: Jul 03, 2025 at 04:29 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -23,6 +23,16 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectAllItems` (IN `p_gudang_id` INT)   BEGIN
+    SELECT *, calculate_item_total(stok_barang, harga) as total_harga 
+    FROM items 
+    WHERE gudang_id = p_gudang_id
+    ORDER BY nama_barang;
+END$$
+
+--
 -- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `calculate_item_total` (`stok` INT, `harga` DECIMAL(10,2)) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN
@@ -30,6 +40,20 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `calculate_item_total` (`stok` INT, `
 END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cardagr`
+-- (See below for the actual view)
+--
+CREATE TABLE `cardagr` (
+`gudang_id` varchar(7)
+,`total_stock` decimal(32,0)
+,`item_count` bigint(21)
+,`total_value` decimal(42,2)
+,`avg_harga` decimal(21,2)
+);
 
 -- --------------------------------------------------------
 
@@ -50,8 +74,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `gudang_id`, `nama_barang`, `stok_barang`, `harga`) VALUES
-(3, '2', 'Indomie', 100, '3000.00'),
-(5, '2', 'Ayam', 50, '90000.00');
+(3, '2', 'Mie Sedap', 30, '4000.00');
 
 -- --------------------------------------------------------
 
@@ -72,8 +95,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `gudang_id`) VALUES
 (1, 'ix', '$2y$10$NwbxmuPDxbGTV7C89IR0EuZAaKgCcxbTFSaIzPiEITkRgZJXEweFK', '2'),
-(3, 'pedro', 'c6cc8094c2dc07b700ffcc36d64e2138', '3'),
 (4, 'x', '$2y$10$q5pojmjnHEVO4JIGvz.kqOPKwZiJjaNzwn0fSZwkMyDmLWCKX3Tgm', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cardagr`
+--
+DROP TABLE IF EXISTS `cardagr`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cardagr`  AS SELECT `items`.`gudang_id` AS `gudang_id`, sum(`items`.`stok_barang`) AS `total_stock`, count(`items`.`id`) AS `item_count`, sum(`items`.`stok_barang` * `items`.`harga`) AS `total_value`, round(avg(`items`.`stok_barang` * `items`.`harga`),2) AS `avg_harga` FROM `items` GROUP BY `items`.`gudang_id``gudang_id`  ;
 
 --
 -- Indexes for dumped tables
@@ -102,7 +133,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
