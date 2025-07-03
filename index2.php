@@ -35,7 +35,7 @@ $stats_stmt->execute([$_SESSION['gudang_id']]);
 $stats = $stats_stmt->fetch();
 
 // Get all items for this warehouse
-$stmt = $pdo->prepare("SELECT *, calculate_item_total(stok_barang, harga) as total_harga FROM items WHERE gudang_id = ? ORDER BY nama_barang");
+$stmt = $pdo->prepare("CALL SelectAllItems (?)");
 $stmt->execute([$_SESSION['gudang_id']]);
 $items = $stmt->fetchAll();
 
