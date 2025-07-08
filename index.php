@@ -84,7 +84,7 @@ function format_rupiah($value) {
     <div class="container">
         <div class="header">
             <h1>Manajemen Gudang <?php echo $_SESSION['gudang_id']; ?></h1>
-            <p>Selamat datang, <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+            <p style="margin: 10px">Selamat datang, <?php echo htmlspecialchars($_SESSION['username']); ?></p>
         </div>
 
         <div class="navbar">
@@ -119,6 +119,16 @@ function format_rupiah($value) {
                 <h3>Rata rata harga</h3>
                 <div class="value"><?php echo format_rupiah($stats['avg_harga'] ?? 0); ?></div>
                 <div class="label">Rata</div>
+            </div>
+             <div class="card">
+                <h3>Bundle Termahal</h3>
+                <div class="value"><?php echo format_rupiah($stats['max_price'] ?? 0); ?></div>
+                <div class="label">Most Valuable</div>
+            </div>
+            <div class="card">
+                <h3>Bundle Termurah</h3>
+                <div class="value"><?php echo format_rupiah($stats['min_price'] ?? 0); ?></div>
+                <div class="label">Least Valuable</div>
             </div>
         </div>
 

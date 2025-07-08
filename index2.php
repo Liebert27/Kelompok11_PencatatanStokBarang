@@ -24,13 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tambah_barang'])) {
 }
 
 // Get dashboard statistics
-$stats_stmt = $pdo->prepare("SELECT 
-    SUM(stok_barang) as total_stock, 
-    COUNT(id) as item_count,
-    SUM(stok_barang * harga) as total_value,
-    ROUND(AVG(calculate_item_total(stok_barang, harga)),2) as avg_harga
-    FROM items 
-    WHERE gudang_id = ?");
+$stats_stmt = $pdo->prepare("SELECT * FROM cardAgr WHERE gudang_id = ?");
 $stats_stmt->execute([$_SESSION['gudang_id']]);
 $stats = $stats_stmt->fetch();
 
@@ -125,6 +119,16 @@ function format_rupiah($value) {
                 <h3>Rata rata harga</h3>
                 <div class="value"><?php echo format_rupiah($stats['avg_harga'] ?? 0); ?></div>
                 <div class="label">Rata</div>
+            </div>
+            <div class="card">
+                <h3>Bundle Termahal</h3>
+                <div class="value"><?php echo format_rupiah($stats['max_price'] ?? 0); ?></div>
+                <div class="label">Most Valuable</div>
+            </div>
+            <div class="card">
+                <h3>Bundle Termurah</h3>
+                <div class="value"><?php echo format_rupiah($stats['min_price'] ?? 0); ?></div>
+                <div class="label">Least Valuable</div>
             </div>
         </div>
 

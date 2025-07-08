@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label for="gudang_id">Gudang ID (unik):</label>
-                    <input type="number" id="gudang_id" name="gudang_id" required>
+                    <input type="text" id="gudang_id" name="gudang_id" required>
                 </div>
                 <button type="submit" class="btn">Register</button>
             </form>
