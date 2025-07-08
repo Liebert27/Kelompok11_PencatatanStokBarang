@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2025 at 04:29 AM
+-- Generation Time: Jul 08, 2025 at 03:47 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -53,6 +53,8 @@ CREATE TABLE `cardagr` (
 ,`item_count` bigint(21)
 ,`total_value` decimal(42,2)
 ,`avg_harga` decimal(21,2)
+,`min_price` decimal(20,2)
+,`max_price` decimal(20,2)
 );
 
 -- --------------------------------------------------------
@@ -74,7 +76,8 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `gudang_id`, `nama_barang`, `stok_barang`, `harga`) VALUES
-(3, '2', 'Mie Sedap', 30, '4000.00');
+(3, '2', 'Mie Sedap', 30, '4000.00'),
+(7, '2', 'Tebs', 555, '8000.00');
 
 -- --------------------------------------------------------
 
@@ -95,7 +98,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `gudang_id`) VALUES
 (1, 'ix', '$2y$10$NwbxmuPDxbGTV7C89IR0EuZAaKgCcxbTFSaIzPiEITkRgZJXEweFK', '2'),
-(4, 'x', '$2y$10$q5pojmjnHEVO4JIGvz.kqOPKwZiJjaNzwn0fSZwkMyDmLWCKX3Tgm', '1');
+(4, 'x', '$2y$10$q5pojmjnHEVO4JIGvz.kqOPKwZiJjaNzwn0fSZwkMyDmLWCKX3Tgm', '1'),
+(5, 'ixn', '$2y$10$7MPeAphXIn6K8jGCvHXgq.BSrIMlIZF4RiRWUsp73fssv5x9Nyvnu', 'IXN');
 
 -- --------------------------------------------------------
 
@@ -104,7 +108,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `gudang_id`) VALUES
 --
 DROP TABLE IF EXISTS `cardagr`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cardagr`  AS SELECT `items`.`gudang_id` AS `gudang_id`, sum(`items`.`stok_barang`) AS `total_stock`, count(`items`.`id`) AS `item_count`, sum(`items`.`stok_barang` * `items`.`harga`) AS `total_value`, round(avg(`items`.`stok_barang` * `items`.`harga`),2) AS `avg_harga` FROM `items` GROUP BY `items`.`gudang_id``gudang_id`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cardagr`  AS SELECT `items`.`gudang_id` AS `gudang_id`, sum(`items`.`stok_barang`) AS `total_stock`, count(`items`.`id`) AS `item_count`, sum(`items`.`stok_barang` * `items`.`harga`) AS `total_value`, round(avg(`items`.`stok_barang` * `items`.`harga`),2) AS `avg_harga`, min(`items`.`stok_barang` * `items`.`harga`) AS `min_price`, max(`items`.`stok_barang` * `items`.`harga`) AS `max_price` FROM `items` GROUP BY `items`.`gudang_id``gudang_id`  ;
 
 --
 -- Indexes for dumped tables
@@ -133,13 +137,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
