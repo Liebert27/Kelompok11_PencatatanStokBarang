@@ -6,6 +6,9 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$pageTitle = 'Edit Barang'; // Set judul halaman
+$error = '';
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_barang'])) {
     $id = $_POST['id'];
@@ -15,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_barang'])) {
 
     $stmt = $pdo->prepare("UPDATE items SET nama_barang = ?, stok_barang = ?, harga = ? WHERE id = ? AND gudang_id = ?");
     if ($stmt->execute([$nama_barang, $stok_barang, $harga, $id, $_SESSION['gudang_id']])) {
-        header('Location: index.php?success=1');
+        header('Location: items.php?success=1');
         exit();
     } else {
         $error = "Gagal mengupdate barang";
@@ -29,56 +32,69 @@ if (isset($_GET['id'])) {
     $item = $stmt->fetch();
 
     if (!$item) {
-        header('Location: index.php');
+        header('Location: items.php');
         exit();
     }
 } else {
-    header('Location: index.php');
+    header('Location: items.php');
     exit();
 }
+
+include 'layout/header.php';
+include 'layout/sidebar.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Barang - Sistem Gudang</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Edit Barang</h1>
-        </div>
-
-        <div class="navbar">
-            <a href="index.php">Kembali</a>
-            <a href="logout.php" class="logout-btn">Logout</a>
-        </div>
-
-        <?php if (isset($error)): ?>
-            <div class="message error"><?php echo $error; ?></div>
-        <?php endif; ?>
-
-        <div class="item-form">
-            <form method="POST">
-                <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                <div class="form-group">
-                    <label for="nama_barang">Nama Barang:</label>
-                    <input type="text" id="nama_barang" name="nama_barang" value="<?php echo htmlspecialchars($item['nama_barang']); ?>" required>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Edit Barang</h1>
                 </div>
-                <div class="form-group">
-                    <label for="stok_barang">Stok Barang:</label>
-                    <input type="number" id="stok_barang" name="stok_barang" value="<?php echo $item['stok_barang']; ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="harga">Harga:</label>
-                    <input type="number" step="0.01" id="harga" name="harga" value="<?php echo $item['harga']; ?>" required>
-                </div>
-                <button type="submit" name="update_barang" class="btn">Update Barang</button>
-            </form>
+            </div>
         </div>
     </div>
-</body>
-</html>
+    <section class="content">
+        <div class="container-fluid">
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?php echo $error; ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Form Edit Barang</h3>
+                </div>
+                <form method="POST">
+                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="nama_barang">Nama Barang:</label>
+                            <input type="text" id="nama_barang" name="nama_barang" value="<?php echo htmlspecialchars($item['nama_barang']); ?>" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok_barang">Stok Barang:</label>
+                            <input type="number" id="stok_barang" name="stok_barang" value="<?php echo $item['stok_barang']; ?>" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="harga">Harga:</label>
+                            <input type="number" step="0.01" id="harga" name="harga" value="<?php echo $item['harga']; ?>" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" name="update_barang" class="btn btn-primary">Update Barang</button>
+                        <a href="items.php" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+<?php
+include 'layout/footer.php';
+?>
